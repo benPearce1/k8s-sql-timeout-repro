@@ -6,4 +6,4 @@ To run test:
 
 Example
 
-`dotnet run 10 'server=.;inital catalog=db;trusted_connection=true`
+`dotnet run 10 'server=.;inital catalog=db;trusted_connection=true'`

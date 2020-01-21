@@ -26,7 +26,7 @@ namespace reprocli
             using (var connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                Console.WriteLine($"Started connection {i}");
+                Console.WriteLine($"{DateTime.Now} - Started connection {i}");
                 using (var tx = connection.BeginTransaction($"Connection-{i.ToString()}"))
                 {
                     using (SqlCommand command = new SqlCommand("select * from sys.tables", connection, tx))
@@ -43,12 +43,12 @@ namespace reprocli
                         }
                     }
 
-                    //Thread.Sleep(5000);
+                    Thread.Sleep(5000);
                     tx.Commit();
                 }
             }
             
-            Console.WriteLine($"Finshing connection {i}");
+            Console.WriteLine($"{DateTime.Now} - Finshing connection {i}");
         }
     }
 }

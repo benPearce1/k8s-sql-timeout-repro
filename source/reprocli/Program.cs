@@ -20,13 +20,12 @@ namespace reprocli
             for (int i = 0; i < count; i++)
             {
                 StringBuilder sb = new StringBuilder("CREATE TABLE #temptbl(ID int IDENTITY(1,1) PRIMARY KEY, value varchar(max))").AppendLine("GO");
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     sb.AppendLine($"INSERT INTO #temptbl(test) Values('{(string.Join(" ", Enumerable.Range(0, 200).Select(x => Guid.NewGuid())))}')").AppendLine("GO");
                 }
                 sb.AppendLine("SELECT * FROM #temptbl").AppendLine("GO");
                 sb.AppendLine("DROP TABLE #temptbl").AppendLine("GO");
-                Console.WriteLine(sb.ToString());
                 tasks[i] = CreateConnectionAndExecuteCommand(i, connString, sb.ToString());
             }
 

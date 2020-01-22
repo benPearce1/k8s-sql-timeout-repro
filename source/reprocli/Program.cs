@@ -14,40 +14,38 @@ namespace reprocli
             var count = int.TryParse(args[0], out int c) ? c : 100;
             var connString = args[1];
 
-            
+            await CreateConnectionWithCallbackExecute(-1, connString,
+                "if not exists (select * from sysobjects where name='temptbl' and xtype='U') CREATE TABLE temptbl(ID int IDENTITY(1,1) PRIMARY KEY,test varchar(max))", ExecuteNonQuery);
             
             Task[] tasks = new Task[count];
             for (int i = 0; i < count; i++)
             {
-                StringBuilder sb = new StringBuilder("CREATE TABLE #temptbl(ID int IDENTITY(1,1) PRIMARY KEY, value varchar(max))").AppendLine("GO");
-                for (int j = 0; j < 10; j++)
+                StringBuilder sb = new StringBuilder();
+                for (int j = 0; j < 5; j++)
                 {
-                    sb.AppendLine($"INSERT INTO #temptbl(test) Values('{(string.Join(" ", Enumerable.Range(0, 200).Select(x => Guid.NewGuid())))}')").AppendLine("GO");
+                    sb.AppendLine($"INSERT INTO temptbl(test) Values('{(string.Join(" ", Enumerable.Range(0, 200).Select(x => Guid.NewGuid())))}')");
                 }
-                sb.AppendLine("SELECT * FROM #temptbl").AppendLine("GO");
-                //sb.AppendLine("DROP TABLE #temptbl").AppendLine("GO");
-                tasks[i] = CreateConnectionAndExecuteCommand(i, connString, sb.ToString(), ReadFields);
+                tasks[i] = CreateConnectionWithCallbackExecute(i, connString, sb.ToString(), ExecuteNonQuery);
             }
 
             Task.WaitAll(tasks);
+
+            await CreateConnectionWithCallbackExecute(-1, connString, "select test from temptbl", ReadFieldLength);
             
-            await CreateConnectionAndExecuteCommand(-1, connString, "DROP TABLE #temptbl");
+            await CreateConnectionWithCallbackExecute(-1, connString, $"DROP TABLE temptbl", ExecuteNonQuery);
         }
         
-        static async Task CreateConnectionAndExecuteCommand(int i, string connectionString, string query, Func<SqlCommand, Task> callback = null)
+        static async Task CreateConnectionWithCallbackExecute(int i, string connectionString, string query, Func<SqlCommand, Task> execute)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                Console.WriteLine($"{DateTime.Now} - Started connection {i}");
+                Console.WriteLine($"{DateTime.Now} - Opened connection {i}");
                 using (var tx = connection.BeginTransaction($"Connection-{i.ToString()}"))
                 {
                     using (SqlCommand command = new SqlCommand(query, connection, tx))
                     {
-                        if (callback != null)
-                        {
-                            await callback(command);
-                        }
+                        await execute(command);
                     }
 
                     Thread.Sleep(5000);
@@ -55,10 +53,10 @@ namespace reprocli
                 }
             }
             
-            Console.WriteLine($"{DateTime.Now} - Finshing connection {i}");
+            Console.WriteLine($"{DateTime.Now} - Closed connection {i}");
         }
         
-        static async Task ReadFields(SqlCommand command)
+        static async Task ReadFieldLength(SqlCommand command)
         {
             int length = 0;
             using (SqlDataReader reader = await command.ExecuteReaderAsync())
@@ -73,6 +71,12 @@ namespace reprocli
                 }
             }
             Console.WriteLine($"Read {length} characters from database");
+        }
+
+        static async Task ExecuteNonQuery(SqlCommand command)
+        {
+            int count = await command.ExecuteNonQueryAsync();
+            Console.WriteLine($"Records affected: {count}");
         }
     }
 }

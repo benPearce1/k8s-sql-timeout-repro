@@ -25,8 +25,8 @@ namespace reprocli
                     sb.AppendLine($"INSERT INTO #temptbl(test) Values('{(string.Join(" ", Enumerable.Range(0, 200).Select(x => Guid.NewGuid())))}')").AppendLine("GO");
                 }
                 sb.AppendLine("SELECT * FROM #temptbl").AppendLine("GO");
-                sb.AppendLine("DROP TABLE #temptbl").AppendLine("GO");
-                tasks[i] = CreateConnectionAndExecuteCommand(i, connString, sb.ToString());
+                //sb.AppendLine("DROP TABLE #temptbl").AppendLine("GO");
+                tasks[i] = CreateConnectionAndExecuteCommand(i, connString, sb.ToString(), ReadFields);
             }
 
             Task.WaitAll(tasks);

@@ -9,7 +9,7 @@
     ".NETCoreApp,Version=v2.2/linux-x64": {
       "reprocli/1.0.0": {
         "dependencies": {
-          "Microsoft.Data.SqlClient": "2.0.0-preview1.20021.1",
+          "Microsoft.Data.SqlClient": "1.1.0",
           "Microsoft.NETCore.App": "2.2.7"
         },
         "runtime": {
@@ -17,7 +17,7 @@
         }
       },
       "Microsoft.CSharp/4.5.0": {},
-      "Microsoft.Data.SqlClient/2.0.0-preview1.20021.1": {
+      "Microsoft.Data.SqlClient/1.1.0": {
         "dependencies": {
           "Microsoft.Identity.Client": "3.0.8",
           "Microsoft.IdentityModel.JsonWebTokens": "5.5.0",
@@ -31,8 +31,8 @@
         },
         "runtime": {
           "runtimes/unix/lib/netcoreapp2.1/Microsoft.Data.SqlClient.dll": {
-            "assemblyVersion": "2.0.20021.1",
-            "fileVersion": "2.0.20021.1"
+            "assemblyVersion": "1.10.19324.4",
+            "fileVersion": "1.10.19324.4"
           }
         }
       },
@@ -1538,12 +1538,12 @@
       "path": "microsoft.csharp/4.5.0",
       "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
     },
-    "Microsoft.Data.SqlClient/2.0.0-preview1.20021.1": {
+    "Microsoft.Data.SqlClient/1.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-C51ZzIViLBoywnKvlP2NeWvmMO9KzMosJfSxKcEiKBz4Gv0qseCRnk8NYamJIOgP/IwzVudY06VgfTktCz1KqA==",
-      "path": "microsoft.data.sqlclient/2.0.0-preview1.20021.1",
-      "hashPath": "microsoft.data.sqlclient.2.0.0-preview1.20021.1.nupkg.sha512"
+      "sha512": "sha512-WVLgzz6SpO5nWojt4B1561rNXLGums8yW0DKgn2I5VSn0NqoyukbS8uI4mjPUQLavYjNAZIaf/GdGt85Nbrr/Q==",
+      "path": "microsoft.data.sqlclient/1.1.0",
+      "hashPath": "microsoft.data.sqlclient.1.1.0.nupkg.sha512"
     },
     "Microsoft.Identity.Client/3.0.8": {
       "type": "package",

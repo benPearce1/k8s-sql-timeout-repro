@@ -25,10 +25,59 @@ namespace reprocli
 
             total.Stop();
 
-            Console.WriteLine($"Total: {total.Elapsed}");
+            Console.WriteLine($"Scenario 2 Total: {total.Elapsed}");
 
+            total.Restart();
+            Enumerable.Range(0,count)
+                .AsParallel()
+                .WithDegreeOfParallelism(10)
+                .ForAll(n => Scenario3(connString, n));
+            Console.WriteLine($"Scenario 3 total: {total.Elapsed}");
+                
             //await Scenario1(connString, count);
             //Scenario2(connString, count);
+        }
+
+        private static void Scenario3(string connString, int n)
+        {
+            SqlDataReader reader2 = null;  
+            string query1 =   
+                @"Select [Id]
+                ,[OwnerId]
+                ,[Version]
+                ,[IsFrozen]
+                ,[JSON]
+                ,[RelatedDocumentIds]
+                ,[SpaceId]
+                ,[OwnerType] From VariableSet Where OwnerId = 'Deployments-1869'";  
+            string query2 = "SELECT Id From [VariableSet] Where OwnerId = 'Deployments-1867'";
+
+            using (SqlConnection awConnection = new SqlConnection(connString))
+            {
+                SqlCommand cmd1 = new SqlCommand(query1, awConnection);
+                SqlCommand cmd2 =
+                    new SqlCommand(query2, awConnection);
+
+                awConnection.Open();
+                using (SqlDataReader reader1 = cmd1.ExecuteReader())
+                {
+                    while (reader1.Read())
+                    {
+                        Console.WriteLine(reader1["OwnerId"]);
+
+                        // The following line of code requires  
+                        // a MARS-enabled connection.  
+                        reader2 = cmd2.ExecuteReader();
+                        using (reader2)
+                        {
+                            while (reader2.Read())
+                            {
+                                Console.WriteLine(reader2["Id"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private static void Scenario2(string connString, int number)

@@ -49,8 +49,8 @@ namespace reprocli
                 ,[JSON]
                 ,[RelatedDocumentIds]
                 ,[SpaceId]
-                ,[OwnerType] From VariableSet Where OwnerId = 'Deployments-1869'";  
-            string query2 = "SELECT Id From [VariableSet] Where OwnerId = 'Deployments-1867'";
+                ,[OwnerType] From VariableSet Where OwnerId = 'Deployments-2809'";  
+            string query2 = "SELECT Id From [VariableSet] Where OwnerId = 'Deployments-2806'";
 
             using (SqlConnection awConnection = new SqlConnection(connString))
             {
@@ -97,7 +97,7 @@ namespace reprocli
                         ,[JSON]
                         ,[RelatedDocumentIds]
                         ,[SpaceId]
-                        ,[OwnerType] From VariableSet Where OwnerId = 'Deployments-1869'", connection, transaction))
+                        ,[OwnerType] From VariableSet Where OwnerId = 'Deployments-2800'", connection, transaction))
                         {
                             using (var reader = command.ExecuteReader())
                             {

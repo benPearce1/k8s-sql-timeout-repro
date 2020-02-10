@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -59,8 +60,15 @@ namespace reprocli
             }
         }
 
-
         static string[] GetQueries()
+        {
+
+            return File.ReadAllText(@"queries.txt")
+                .Split("\n============\n", StringSplitOptions.RemoveEmptyEntries);
+        }
+
+
+        static string[] SelectQueries()
         {
             var document = new XmlDocument();
             document.PreserveWhitespace = true;

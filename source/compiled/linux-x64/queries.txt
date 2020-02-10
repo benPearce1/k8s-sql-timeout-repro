@@ -1,0 +1,920 @@
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNode]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(250)',@id=N'OctopusServerNodes-PAWELPCM'
+============
+SELECT *
+FROM (
+    
+                        SELECT DISTINCT TOP 10 ServerTask.*                     -- Distinct just in case two MachinePolicy Ids get into the JSON
+                        FROM ServerTask
+    	                    LEFT JOIN MachinePolicy ON ServerTask.JSON like '%' + MachinePolicy.Id + '%'
+                        WHERE ServerTask.Name = 'Health'
+    	                    AND State not in ('Queued', 'Executing')
+    	                    AND QueueTime < DATEADD(d, -30, SYSDATETIMEOFFSET())
+    	                    AND MachinePolicy.Id is null                         -- Filters to records that didn't join into MachinePolicy table
+    	                
+) ALIAS_GENERATED_1
+ORDER BY ALIAS_GENERATED_1.[Id]
+============
+SELECT *
+FROM (
+    
+                        SELECT DISTINCT TOP 10 ServerTask.*                     -- Distinct just in case two MachinePolicy Ids get into the JSON
+                        FROM ServerTask
+    	                    LEFT JOIN MachinePolicy ON ServerTask.JSON like '%' + MachinePolicy.Id + '%'
+                        WHERE ServerTask.Name = 'Health'
+    	                    AND State not in ('Queued', 'Executing')
+    	                    AND QueueTime < DATEADD(d, -30, SYSDATETIMEOFFSET())
+    	                    AND MachinePolicy.Id is null                         -- Filters to records that didn't join into MachinePolicy table
+    	                
+) ALIAS_GENERATED_1
+ORDER BY ALIAS_GENERATED_1.[Id]
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(17),@columnName nvarchar(8)',@tableName=N'OctopusServerNode',@columnName=N'LastSeen'
+============
+exec sp_executesql N'SELECT Name FROM dbo.[OctopusServerNodeStatus] INNER JOIN dbo.[OctopusServerNode]  ON dbo.[OctopusServerNodeStatus].[OctopusServerNodeId] = dbo.[OctopusServerNode].[Id]WHERE [LastSeen] > @lastSeenAfter  AND IsOnline = 1',N'@lastSeenAfter datetimeoffset(7)',@lastSeenAfter='2020-01-29 08:42:37.2301222 +00:00'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNode]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(250)',@id=N'OctopusServerNodes-PAWELPCM'
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(7),@columnName nvarchar(11)',@tableName=N'Machine',@columnName=N'LicenseHash'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNodeStatus]
+WHERE ([OctopusServerNodeId] = @octopusservernodeid_0)
+ORDER BY [Id]',N'@octopusservernodeid_0 nvarchar(27)',@octopusservernodeid_0=N'OctopusServerNodes-PAWELPCM'
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(6)',@tableName=N'Worker'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Configuration]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'maintenance'
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Configuration]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'webportal'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'Releases-44'
+============
+SELECT *
+FROM dbo.[OctopusServerNode]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[OctopusServerNode]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus] WITH (TABLOCKX)
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus] WITH (TABLOCKX)
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+SELECT *
+FROM dbo.[MachinePolicy]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[MachinePolicy]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[Space]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[Space]
+ORDER BY [Id]
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[User]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Users-1'
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(17),@columnName nvarchar(8)',@tableName=N'OctopusServerNode',@columnName=N'LastSeen'
+============
+exec sp_executesql N'SELECT Name FROM dbo.[OctopusServerNodeStatus] INNER JOIN dbo.[OctopusServerNode]  ON dbo.[OctopusServerNodeStatus].[OctopusServerNodeId] = dbo.[OctopusServerNode].[Id]WHERE [LastSeen] > @lastSeenAfter  AND IsOnline = 1',N'@lastSeenAfter datetimeoffset(7)',@lastSeenAfter='2020-01-29 08:42:37.3426452 +00:00'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Configuration]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'servertaskretention'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(7),@columnName nvarchar(11)',@tableName=N'Machine',@columnName=N'LicenseHash'
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(6)',@tableName=N'Worker'
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(17),@columnName nvarchar(8)',@tableName=N'OctopusServerNode',@columnName=N'LastSeen'
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus]
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT Name FROM dbo.[OctopusServerNodeStatus] INNER JOIN dbo.[OctopusServerNode]  ON dbo.[OctopusServerNodeStatus].[OctopusServerNodeId] = dbo.[OctopusServerNode].[Id]WHERE [LastSeen] > @lastSeenAfter  AND IsOnline = 1',N'@lastSeenAfter datetimeoffset(7)',@lastSeenAfter='2020-01-29 08:42:37.3486458 +00:00'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[OctopusServerNode]
+WHERE ([IsInMaintenanceMode] = @isinmaintenancemode_0)
+ORDER BY [Id]',N'@isinmaintenancemode_0 int',@isinmaintenancemode_0=0
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(7),@columnName nvarchar(11)',@tableName=N'Machine',@columnName=N'LicenseHash'
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(6)',@tableName=N'Worker'
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+exec sp_executesql N'SELECT TOP 20 [Id]
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name_0)
+AND ([State] IN (@state0_1, @state1_2, @state2_3))
+ORDER BY [CompletedTime] DESC',N'@name_0 nvarchar(12),@state0_1 nvarchar(7),@state1_2 nvarchar(6),@state2_3 nvarchar(8)',@name_0=N'DeleteSpaces',@state0_1=N'Success',@state1_2=N'Failed',@state2_3=N'Canceled'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNode]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(250)',@id=N'OctopusServerNodes-PAWELPCM'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'Releases-44'
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(17),@columnName nvarchar(8)',@tableName=N'OctopusServerNode',@columnName=N'LastSeen'
+============
+exec sp_executesql N'SELECT Name FROM dbo.[OctopusServerNodeStatus] INNER JOIN dbo.[OctopusServerNode]  ON dbo.[OctopusServerNodeStatus].[OctopusServerNodeId] = dbo.[OctopusServerNode].[Id]WHERE [LastSeen] > @lastSeenAfter  AND IsOnline = 1',N'@lastSeenAfter datetimeoffset(7)',@lastSeenAfter='2020-01-29 08:42:37.3536462 +00:00'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Channel]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Channels-41'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(7),@columnName nvarchar(11)',@tableName=N'Machine',@columnName=N'LicenseHash'
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(6)',@tableName=N'Worker'
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[OctopusServerNodeStatus]
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[OctopusServerNode]
+WHERE ([IsInMaintenanceMode] = @isinmaintenancemode_0)
+ORDER BY [Id]',N'@isinmaintenancemode_0 int',@isinmaintenancemode_0=0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[DeploymentProcess]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'deploymentprocess-Projects-41-s-1-BN5XP'
+============
+exec sp_executesql N'SELECT TOP 100 *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name_4)
+AND ([State] IN (@state0_5, @state1_6, @state2_7))
+AND ([CompletedTime] < @completedtime_8)
+ORDER BY [Id]',N'@name_4 nvarchar(12),@state0_5 nvarchar(7),@state1_6 nvarchar(6),@state2_7 nvarchar(8),@completedtime_8 datetimeoffset(7)',@name_4=N'DeleteSpaces',@state0_5=N'Success',@state1_6=N'Failed',@state2_7=N'Canceled',@completedtime_8='2019-12-30 18:43:37.3516464 +10:00'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+SELECT COUNT(*)
+FROM dbo.[ServerTask] with (NOLOCK)
+WHERE ([State] IN ('Executing','Cancelling'))
+AND (JSON not like '%"ChildTaskCount"%' or JSON like '%"ChildTaskCount":0%')
+============
+SELECT COUNT(*)
+FROM dbo.[ServerTask] with (NOLOCK)
+WHERE ([State] IN ('Executing','Cancelling'))
+AND (JSON not like '%"ChildTaskCount"%' or JSON like '%"ChildTaskCount":0%')
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[DeploymentEnvironment]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Environments-1'
+============
+exec sp_executesql N'SELECT COUNT(*)
+FROM dbo.[ServerTask] with (NOLOCK)
+WHERE ([State] IN (''Executing'',''Cancelling''))
+AND (JSON not like ''%"ChildTaskCount"%'' or JSON like ''%"ChildTaskCount":0%'')
+AND ([ServerNodeId] = @nodeid)',N'@nodeid nvarchar(27)',@nodeid=N'OctopusServerNodes-PAWELPCM'
+============
+exec sp_executesql N'IF EXISTS(SELECT *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name AND [State] in (''Queued'', ''Executing'')))
+    SELECT @true_0
+ELSE
+    SELECT @false_1',N'@name nvarchar(12),@true_0 int,@false_1 int',@name=N'DeleteSpaces',@true_0=1,@false_1=0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Tenant]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Tenants-1'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name_2)
+ORDER BY [QueueTime] DESC',N'@name_2 nvarchar(12)',@name_2=N'DeleteSpaces'
+============
+exec sp_executesql N'
+                    SELECT Id, Name, ServerNodeId
+                    FROM dbo.ServerTask with (NOLOCK)
+                    WHERE State = ''Queued''
+                        AND HasPendingInterruptions = 0
+                        AND (ServerNodeId is null OR ServerNodeId = @serverNodeId)
+                        AND QueueTime <= @queueTime
+                        AND (SpaceId IS NULL OR SpaceId IN (SELECT Id FROM Space WHERE TaskQueueStopped=@taskQueueStopped))
+                    ORDER BY QueueTime, Id',N'@serverNodeId nvarchar(27),@queueTime datetimeoffset(7),@taskQueueStopped bit',@serverNodeId=N'OctopusServerNodes-PAWELPCM',@queueTime='2020-01-29 08:43:57.3666442 +00:00',@taskQueueStopped=0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[ProjectGroup]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'ProjectGroups-1'
+============
+exec sp_executesql N'IF EXISTS(SELECT *
+FROM dbo.[DeletedSpace])
+    SELECT @true_0
+ELSE
+    SELECT @false_1',N'@true_0 int,@false_1 int',@true_0=1,@false_1=0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Space]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Spaces-1'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'TagSet' AS [TableName],
+'Spaces-1' AS [PartitionId]
+FROM dbo.[TagSet]
+WHERE ((([SpaceId] = 'Spaces-1')))
+AND ([SpaceId] = 'Spaces-1')
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'TagSet' AS [TableName],
+'Spaces-1' AS [PartitionId]
+FROM dbo.[TagSet]
+WHERE ((([SpaceId] = 'Spaces-1')))
+AND ([SpaceId] = 'Spaces-1')
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Configuration]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'scheduleconfiguration'
+============
+SELECT IDENT_CURRENT ('Event')
+============
+SELECT IDENT_CURRENT ('Event')
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Tenant]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Tenants-1'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT [Id]
+FROM dbo.[DeploymentEnvironment]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+SELECT [Id]
+FROM dbo.[DeploymentEnvironment]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+SELECT *
+FROM dbo.[Project]
+WHERE ((([SpaceId] = 'Spaces-1')))
+AND ([IsDisabled] = 0 AND [Id] IN (SELECT [ProjectId] FROM [ProjectTrigger] WHERE [IsDisabled] = 0 AND [TriggerType] = 'AutoDeploy'))
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[Project]
+WHERE ((([SpaceId] = 'Spaces-1')))
+AND ([IsDisabled] = 0 AND [Id] IN (SELECT [ProjectId] FROM [ProjectTrigger] WHERE [IsDisabled] = 0 AND [TriggerType] = 'AutoDeploy'))
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[TenantVariable]
+WHERE ((([SpaceId] = ''Spaces-1'' AND ((([OwnerId] IN (SELECT [Id] FROM [dbo].[Project] [P])) OR [OwnerId] IN (
+SELECT [LVS].[Id] FROM [dbo].[LibraryVariableSet] [LVS]
+INNER JOIN [dbo].[Project] [P]
+ON [P].[IncludedLibraryVariableSetIds] LIKE (''%|''+[LVS].[Id]+''|%'')
+INNER JOIN [dbo].[Tenant] [T]
+ON [T].[ProjectIds] LIKE (''%|''+ [P].[Id] +''|%'')
+))))))
+AND ([OwnerId] IN (@ownerid0_0))
+AND ([TenantId] IN (@tenantid0_1))
+ORDER BY [Id]',N'@ownerid0_0 nvarchar(11),@tenantid0_1 nvarchar(9)',@ownerid0_0=N'Projects-41',@tenantid0_1=N'Tenants-1'
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[Event]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Category] = @category_0)
+AND ([AutoId] <= @toautoid)
+AND ([AutoId] > @fromautoid)
+ORDER BY [AutoId]',N'@category_0 nvarchar(4000),@toautoid bigint,@fromautoid bigint',@category_0=N'DeploymentSucceeded',@toautoid=99,@fromautoid=98
+============
+exec sp_executesql N'SELECT ALIAS_GENERATED_3.*
+FROM (
+    SELECT *
+    FROM dbo.[Deployment]
+    WHERE ((([SpaceId] = ''Spaces-1'')))
+    AND ([ProjectId] = @projectid_2)
+    AND ([EnvironmentId] = @environmentid_3)
+    AND ([TenantId] = @tenantid_4)
+) ALIAS_GENERATED_3
+INNER JOIN (
+    SELECT *
+    FROM dbo.[ServerTask]
+    WHERE ((([SpaceId] = ''Spaces-1'')))
+) ALIAS_GENERATED_2
+ON ALIAS_GENERATED_3.[TaskId] = ALIAS_GENERATED_2.[Id]
+WHERE (State = ''Success'')
+ORDER BY ALIAS_GENERATED_3.[Created] DESC',N'@projectid_2 nvarchar(11),@environmentid_3 nvarchar(14),@tenantid_4 nvarchar(9)',@projectid_2=N'Projects-41',@environmentid_3=N'Environments-1',@tenantid_4=N'Tenants-1'
+============
+SELECT *
+FROM dbo.[AutoDeployQueueItem]
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[AutoDeployQueueItem]
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'Releases-43'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[Release]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([ProjectId] = @projectid_5)
+ORDER BY [Id]',N'@projectid_5 nvarchar(11)',@projectid_5=N'Projects-41'
+============
+exec sp_executesql N'IF EXISTS(SELECT *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name_0)
+AND ([State] IN (@state0_1, @state1_2, @state2_3)))
+    SELECT @true_4
+ELSE
+    SELECT @false_5',N'@name_0 nvarchar(29),@state0_1 nvarchar(9),@state1_2 nvarchar(6),@state2_3 nvarchar(10),@true_4 int,@false_5 int',@name_0=N'RecurringScheduledDeployments',@state0_1=N'Executing',@state1_2=N'Queued',@state2_3=N'Cancelling',@true_4=1,@false_5=0
+============
+exec sp_executesql N'SELECT [Name]
+FROM dbo.[Deployment]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([ReleaseId] = @releaseid_6)
+AND ([EnvironmentId] = @environmentid_7)
+ORDER BY [Id]',N'@releaseid_6 nvarchar(11),@environmentid_7 nvarchar(14)',@releaseid_6=N'Releases-44',@environmentid_7=N'Environments-1'
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[ProjectTrigger]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([IsDisabled] = 0 AND [TriggerType] = @triggertype)
+ORDER BY [Id]',N'@triggertype nvarchar(9)',@triggertype=N'Scheduled'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([Id] <> @releaseid AND [ProjectId] = @projectid)
+ORDER BY [Assembled] DESC',N'@releaseid nvarchar(11),@projectid nvarchar(11)',@releaseid=N'Releases-44',@projectid=N'Projects-41'
+============
+exec sp_executesql N'IF EXISTS(SELECT *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'') OR ([SpaceId] IS NULL)))
+AND ([Name] = @name_0)
+AND ([State] IN (@state0_1, @state1_2, @state2_3)))
+    SELECT @true_4
+ELSE
+    SELECT @false_5',N'@name_0 nvarchar(12),@state0_1 nvarchar(9),@state1_2 nvarchar(6),@state2_3 nvarchar(10),@true_4 int,@false_5 int',@name_0=N'Subscription',@state0_1=N'Executing',@state1_2=N'Queued',@state2_3=N'Cancelling',@true_4=1,@false_5=0
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([Id] = (SELECT TOP 1 [ReleaseId] FROM Deployment WHERE [ProjectId] = @projectid AND [EnvironmentId] = @environmentid AND [ReleaseId] <> @releaseid ORDER BY [Created] DESC))
+ORDER BY [Id]',N'@projectid nvarchar(11),@environmentid nvarchar(14),@releaseid nvarchar(11)',@projectid=N'Projects-41',@environmentid=N'Environments-1',@releaseid=N'Releases-44'
+============
+SELECT IDENT_CURRENT ('Event')
+============
+SELECT IDENT_CURRENT ('Event')
+============
+SELECT *
+FROM dbo.[DeploymentEnvironment]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[DeploymentEnvironment]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[Subscription]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([Type] = @eventtype AND [IsDisabled] = 0)
+ORDER BY [Id]',N'@eventtype nvarchar(5)',@eventtype=N'Event'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Channel]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Channels-41'
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Lifecycle]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Lifecycles-1'
+============
+exec sp_executesql N'SELECT ALIAS_GENERATED_4.[Id] AS [DeploymentId],
+ALIAS_GENERATED_4.[Created],
+ALIAS_GENERATED_4.[EnvironmentId],
+ALIAS_GENERATED_4.[ReleaseId],
+ALIAS_GENERATED_4.[TenantId],
+t.[State] AS [TaskState]
+FROM (
+    SELECT *
+    FROM dbo.[Deployment]
+    WHERE ((([SpaceId] = ''Spaces-1'')))
+    AND ([ReleaseId] = @releaseid_8)
+) ALIAS_GENERATED_4
+INNER JOIN (
+    SELECT *
+    FROM dbo.[ServerTask]
+    WHERE ((([SpaceId] = ''Spaces-1'')))
+) t
+ON ALIAS_GENERATED_4.[TaskId] = t.[Id]
+ORDER BY ALIAS_GENERATED_4.[Id]',N'@releaseid_8 nvarchar(11)',@releaseid_8=N'Releases-44'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Channel]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Channels-41'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Lifecycle]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Lifecycles-1'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[VariableSet]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'variableset-Projects-41-s-0-DHDY7'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Project]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Projects-41'
+============
+exec UpdateDeploymentHistory @quick=1
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+SELECT MAX([DataVersion]) AS [Latest],
+COUNT(*) AS [Count],
+'Space' AS [TableName],
+null AS [PartitionId]
+FROM dbo.[Space]
+ORDER BY [Count]
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[ServerTask]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([ProjectId] = @projectid_9)
+AND ([EnvironmentId] = @environmentid_10)
+AND ([State] = @state_11)
+AND ([TenantId] = @tenantid_12)
+ORDER BY [CompletedTime] DESC',N'@projectid_9 nvarchar(11),@environmentid_10 nvarchar(14),@state_11 nvarchar(7),@tenantid_12 nvarchar(9)',@projectid_9=N'Projects-41',@environmentid_10=N'Environments-1',@state_11=N'Success',@tenantid_12=N'Tenants-1'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Deployment]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Deployments-83'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Release]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'Releases-43'
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[Certificate]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([Id] in (@ids_0))
+ORDER BY [Id]',N'@ids_0 nvarchar(4000)',@ids_0=NULL
+============
+exec sp_executesql N'SELECT *
+FROM dbo.[Account]
+WHERE ((([SpaceId] = ''Spaces-1'')))
+AND ([Id] in (@ids_0))
+ORDER BY [Id]',N'@ids_0 nvarchar(4000)',@ids_0=NULL
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Configuration]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'serverconfig'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[VariableSet]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(150)',@id=N'variableset-Projects-41-s-0-DHDY7'
+============
+exec UpdateRunbookRunHistory @quick=1
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Deployment]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Deployments-84'
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[Deployment]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(50)',@id=N'Deployments-84'
+============
+SELECT *
+FROM dbo.[Feed]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+SELECT *
+FROM dbo.[Feed]
+WHERE ((([SpaceId] = 'Spaces-1')))
+ORDER BY [Id]
+============
+exec GetNextKeyBlock @collectionName=N'Event',@blockSize=20
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNode]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(250)',@id=N'OctopusServerNodes-PAWELPCM'
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+SELECT [JSON] FROM [dbo].[Configuration] WHERE Id = 'license'
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(17),@columnName nvarchar(8)',@tableName=N'OctopusServerNode',@columnName=N'LastSeen'
+============
+exec sp_executesql N'SELECT Name FROM dbo.[OctopusServerNodeStatus] INNER JOIN dbo.[OctopusServerNode]  ON dbo.[OctopusServerNodeStatus].[OctopusServerNodeId] = dbo.[OctopusServerNode].[Id]WHERE [LastSeen] > @lastSeenAfter  AND IsOnline = 1',N'@lastSeenAfter datetimeoffset(7)',@lastSeenAfter='2020-01-29 08:42:41.6904039 +00:00'
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [Project] WHERE [IsDisabled] = 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+SELECT COUNT(*) FROM [dbo].[User] WHERE [IsActive] != 0
+============
+exec sp_executesql N'IF COL_LENGTH(@tableName,@columnName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(7),@columnName nvarchar(11)',@tableName=N'Machine',@columnName=N'LicenseHash'
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+SELECT COUNT(DISTINCT [LicenseHash]) FROM dbo.[Machine] WHERE [IsDisabled] = 0 AND [LicenseHash] IS NOT NULL
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(6)',@tableName=N'Worker'
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+SELECT [JSON] FROM [Worker] WHERE [IsDisabled] = 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+IF (EXISTS (SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = 'dbo' 
+                    AND  TABLE_NAME = 'Space'))
+                        SELECT COUNT(*) FROM [Space]
+                    ELSE
+                        SELECT 0
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+SELECT COUNT(*) FROM ServerTask WHERE [State] IN ('Executing','Cancelling')
+============
+exec sp_executesql N'SELECT TOP 1 *
+FROM dbo.[OctopusServerNode]
+WHERE ([Id] = @id)
+ORDER BY [Id]',N'@id nvarchar(250)',@id=N'OctopusServerNodes-PAWELPCM'
+============
+exec sp_executesql N'IF OBJECT_ID(@tableName) IS NOT NULL SELECT 1 AS result ELSE SELECT 0 AS result',N'@tableName nvarchar(13)',@tableName=N'Configuration'
+============

@@ -62,9 +62,8 @@ namespace reprocli
 
         static string[] GetQueries()
         {
-
             return File.ReadAllText(@"queries.txt")
-                .Split("\n============\n", StringSplitOptions.RemoveEmptyEntries);
+                .Split("=================================================", StringSplitOptions.RemoveEmptyEntries);
         }
 
 
@@ -109,6 +108,7 @@ namespace reprocli
                 var queryStopWatch = Stopwatch.StartNew();
 
                 var query = queries[i];
+                //Console.WriteLine(query);
                 using (var connection = new SqlConnection(connString))
                 {
                     connection.Open();

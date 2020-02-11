@@ -107,13 +107,7 @@ namespace reprocli
             {
                 var queryStopWatch = Stopwatch.StartNew();
 
-                var query = @"SELECT MAX([DataVersion]) AS [Latest],
-COUNT(*) AS [Count],
-'Space' AS [TableName],
-null AS [PartitionId]
-FROM dbo.[Space]
-ORDER BY [Count]";
-                    //queries[i];
+                var query = queries[i];
                 //Console.WriteLine(query);
                 using (var connection = new SqlConnection(connString))
                 {

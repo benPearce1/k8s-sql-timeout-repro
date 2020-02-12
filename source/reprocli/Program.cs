@@ -17,13 +17,13 @@ namespace reprocli
 
                 var total = Stopwatch.StartNew();
 
-
-               PrepareData(connectionString);
+                PrepareData(connectionString);
                 total.Restart();
                 Enumerable.Range(0,count)
                     .AsParallel()
                     .WithDegreeOfParallelism(count)
                     .ForAll(n => Scenario4(connectionString, n));
+
                 Console.WriteLine($"Total: {total.Elapsed}");
 
             }
@@ -75,7 +75,7 @@ namespace reprocli
 
 
 
-        static void PrepareData(string connString)
+        static void PrepareData(string connectionString)
         {
             var createTable = @"
                 DROP TABLE IF EXISTS TestTable;
@@ -85,7 +85,7 @@ namespace reprocli
                     [Name] [nvarchar](20) NOT NULL
                 );";
 
-            using (var connection = new SqlConnection(connString))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))

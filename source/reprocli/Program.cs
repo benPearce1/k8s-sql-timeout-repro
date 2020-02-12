@@ -43,14 +43,13 @@ namespace reprocli
             {
                 var queryStopWatch = Stopwatch.StartNew();
 
-                var query = @"SELECT * From TestTable";
 
                 using (var connection = new SqlConnection(connString))
                 {
                     connection.Open();
                     using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
-                        using (var command = new SqlCommand(query, connection, transaction))
+                        using (var command = new SqlCommand("SELECT * From TestTable", connection, transaction))
                         {
                             using (var reader = command.ExecuteReader())
                             {

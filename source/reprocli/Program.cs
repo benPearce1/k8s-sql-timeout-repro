@@ -2,6 +2,7 @@
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Data.SqlClient;
 
 namespace reprocli
@@ -14,6 +15,15 @@ namespace reprocli
             {
                 var count = int.Parse(args[0]);
                 var connectionString = args[1];
+
+                ThreadPool.GetMinThreads(out var minWorkerThreads, out var minCompletionThreads);
+                Console.WriteLine($"Worker Threads Min: {minWorkerThreads} Completion Threads Min: {minCompletionThreads}");
+
+                ThreadPool.GetMaxThreads(out var workerThreads, out var completionThreads);
+                Console.WriteLine($"Worker Threads Max: {workerThreads} Completion Threads Max: {completionThreads}");
+
+
+                ThreadPool.SetMinThreads(count, completionThreads);
 
                 var total = Stopwatch.StartNew();
 

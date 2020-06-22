@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0-pull-e81c350.20168.5" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0-pull-baed691.20169.2" />
   </ItemGroup>
 
   <ItemGroup>

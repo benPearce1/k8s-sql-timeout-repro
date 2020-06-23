@@ -19,6 +19,7 @@ Download into the container and run main test
 cd ~
 apt install git
 git clone https://github.com/benPearce1/k8s-sql-timeout-repro
+git checkout tiny
 cd ./k8s-sql-timeout-repro/source/reprocli/compiled/linux-x64
 dotnet reprocli.dll <connection count> '<sql connection string>'
 ```

@@ -19,8 +19,10 @@ Download into the container and run main test
 cd ~
 apt install git
 git clone https://github.com/benPearce1/k8s-sql-timeout-repro
+cd k8s-sql-timeout-repro
 git checkout tiny
 cd ./k8s-sql-timeout-repro/source/reprocli/compiled/linux-x64
+chmod +x ./reprocli
 dotnet reprocli.dll <connection count> '<sql connection string>'
 ```
 ^ In linux, the sql connection string may need to be single-quoted due to characters in the password

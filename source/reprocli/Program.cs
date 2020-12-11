@@ -17,15 +17,6 @@ namespace reprocli
                 var connectionString = args[1];
 
                 PrepareData(connectionString);
-                var sync = Stopwatch.StartNew();
-                Enumerable.Range(0,count)
-                    .AsParallel()
-                    .WithDegreeOfParallelism(count)
-                    .ForAll(n => Sync(connectionString, n));
-
-                @sync.Stop();
-
-                PrepareData(connectionString);
                 var @async = Stopwatch.StartNew();
                 var tasks = Enumerable.Range(0,count)
                     .Select(n => Async(connectionString, n))
@@ -34,8 +25,18 @@ namespace reprocli
                 Task.WaitAll(tasks);
                 @async.Stop();
 
-                Console.WriteLine($"Total Sync: {sync.Elapsed}");
+                PrepareData(connectionString);
+                var sync = Stopwatch.StartNew();
+                Enumerable.Range(0,count)
+                    .AsParallel()
+                    .WithDegreeOfParallelism(count)
+                    .ForAll(n => Sync(connectionString, n));
+
+                @sync.Stop();
+
                 Console.WriteLine($"Total Async: {@async.Elapsed}");
+                Console.WriteLine($"Total Sync: {sync.Elapsed}");
+
 
             }
             catch (Exception e)

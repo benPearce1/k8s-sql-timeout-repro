@@ -1,30 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
 namespace reprocli
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
                 var count = int.Parse(args[0]);
                 var connectionString = args[1];
 
-                var total = Stopwatch.StartNew();
-
                 PrepareData(connectionString);
-                total.Restart();
+                var sync = Stopwatch.StartNew();
                 Enumerable.Range(0,count)
                     .AsParallel()
                     .WithDegreeOfParallelism(count)
-                    .ForAll(n => Scenario4(connectionString, n));
+                    .ForAll(n => Sync(connectionString, n));
 
-                Console.WriteLine($"Total: {total.Elapsed}");
+                @sync.Stop();
+
+                PrepareData(connectionString);
+                var @async = Stopwatch.StartNew();
+                var tasks = Enumerable.Range(0,count)
+                    .Select(n => Async(connectionString, n))
+                    .ToArray();
+
+                Task.WaitAll(tasks);
+                @async.Stop();
+
+                Console.WriteLine($"Total Sync: {sync.Elapsed}");
+                Console.WriteLine($"Total Async: {@async.Elapsed}");
 
             }
             catch (Exception e)
@@ -34,7 +46,7 @@ namespace reprocli
             }
         }
 
-        private static void Scenario4(string connString, int number)
+        private static void Sync(string connString, int number)
         {
             var userStopWatch = Stopwatch.StartNew();
 
@@ -42,7 +54,6 @@ namespace reprocli
             for (var i = 0; i < 210; i++)
             {
                 var queryStopWatch = Stopwatch.StartNew();
-
 
                 using (var connection = new SqlConnection(connString))
                 {
@@ -71,6 +82,45 @@ namespace reprocli
             userStopWatch.Stop();
             Console.WriteLine($"Number: {number}. All Queries. Time: {userStopWatch.Elapsed}");
         }
+
+        private static async Task Async(string connString, int number)
+        {
+            var userStopWatch = Stopwatch.StartNew();
+
+            var buffer = new object[100];
+            for (var i = 0; i < 210; i++)
+            {
+                var queryStopWatch = Stopwatch.StartNew();
+
+
+                using (var connection = new SqlConnection(connString))
+                {
+                    await connection.OpenAsync();
+                    using (var transaction = (SqlTransaction)await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted))
+                    {
+                        using (var command = new SqlCommand("SELECT * From TestTable", connection, transaction))
+                        {
+                            using (var reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    reader.GetValues(buffer);
+                                }
+                            }
+                        }
+
+                        await transaction.CommitAsync();
+                    }
+                }
+
+                queryStopWatch.Stop();
+                Console.WriteLine($"Number: {number}. Query: {i} Time: {queryStopWatch.Elapsed}");
+            }
+
+            userStopWatch.Stop();
+            Console.WriteLine($"Number: {number}. All Queries. Time: {userStopWatch.Elapsed}");
+        }
+
 
 
 

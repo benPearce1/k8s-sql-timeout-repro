@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -9,35 +10,70 @@ namespace reprocli
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
                 var count = int.Parse(args[0]);
-                var connectionString = args[1];
+                var option = args[1];
+                var connectionString = args[2];
+                var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+
+                Console.WriteLine($"Running '{option}' with MARS set to '{connectionStringBuilder.MultipleActiveResultSets}'");
 
                 PrepareData(connectionString);
-                var @async = Stopwatch.StartNew();
-                var tasks = Enumerable.Range(0,count)
-                    .Select(n => Async(connectionString, n))
-                    .ToArray();
 
-                Task.WaitAll(tasks);
-                @async.Stop();
+                var watch = Stopwatch.StartNew();
 
-                PrepareData(connectionString);
-                var sync = Stopwatch.StartNew();
-                Enumerable.Range(0,count)
-                    .AsParallel()
-                    .WithDegreeOfParallelism(count)
-                    .ForAll(n => Sync(connectionString, n));
+                switch (option)
+                {
+                    case "sync":
+                    {
+                        Enumerable.Range(0,count)
+                            .AsParallel()
+                            .WithDegreeOfParallelism(count)
+                            .ForAll(n => Sync(connectionString, n));
+                        break;
+                    }
+                    case "async":
+                    {
+                        var tasks = Enumerable.Range(0,count)
+                            .Select(n => Async(connectionString, n))
+                            .ToArray();
 
-                @sync.Stop();
+                        Task.WaitAll(tasks);
+                        break;
+                    }
+                    case "async2":
+                    {
+                        async IAsyncEnumerable<int> RangeAsync()
+                        {
+                            for (var i = 0; i < count; i++)
+                            {
+                                await Async(connectionString, i);
+                                yield return i;
+                            }
+                        }
+                        await foreach (var _ in RangeAsync())
+                        { }
 
-                Console.WriteLine($"Total Async: {@async.Elapsed}");
-                Console.WriteLine($"Total Sync: {sync.Elapsed}");
+                        var tasks = Enumerable.Range(0,count)
+                            .Select(n => Async(connectionString, n))
+                            .ToArray();
+
+                        Task.WaitAll(tasks);
+                        break;
+                    }
+                    default:
+                    {
+                        throw new Exception("sync, async and async2 are valida values for the second parameter");
+                    }
+                }
+
+                watch.Stop();
 
 
+                Console.WriteLine($"Total for {option} with MARS({connectionStringBuilder.MultipleActiveResultSets}): {watch.Elapsed}");
             }
             catch (Exception e)
             {

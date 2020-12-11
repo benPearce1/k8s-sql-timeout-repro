@@ -14,6 +14,8 @@ namespace reprocli
         {
             try
             {
+                Console.WriteLine("Starting...");
+
                 var count = int.Parse(args[0]);
                 var option = args[1];
                 var connectionString = args[2];

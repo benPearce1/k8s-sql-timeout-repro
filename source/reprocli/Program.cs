@@ -59,11 +59,6 @@ namespace reprocli
                         await foreach (var _ in RangeAsync())
                         { }
 
-                        var tasks = Enumerable.Range(0,count)
-                            .Select(n => Async(connectionString, n))
-                            .ToArray();
-
-                        Task.WaitAll(tasks);
                         break;
                     }
                     default:
@@ -75,7 +70,7 @@ namespace reprocli
                 watch.Stop();
 
 
-                Console.WriteLine($"Total for {option} with MARS({connectionStringBuilder.MultipleActiveResultSets}): {watch.Elapsed}");
+                Console.WriteLine($"Total for '{option}' with MARS({connectionStringBuilder.MultipleActiveResultSets}): {watch.Elapsed}");
             }
             catch (Exception e)
             {
